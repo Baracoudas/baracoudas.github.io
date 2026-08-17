@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Baracoudas</title>
 <meta name="description" content="Projets de Baracoudas">
+<meta name="robots" content="noindex, nofollow">
 <style>
   :root {
     --bg: #0b0d12;
@@ -98,9 +99,61 @@
   footer a:hover {
     color: var(--text);
   }
+  #gate {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+  }
+  #gate form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 280px;
+    padding: 0 1.5rem;
+  }
+  #gate input {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    padding: 0.6rem 0.75rem;
+    font-size: 1rem;
+  }
+  #gate input:focus {
+    outline: 1px solid var(--accent);
+  }
+  #gate button {
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    padding: 0.6rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  #gate p {
+    margin: 0;
+    color: #ff6b6b;
+    font-size: 0.85rem;
+    min-height: 1.2em;
+  }
+  main { display: none; }
 </style>
 </head>
 <body>
+<div id="gate">
+  <form id="gate-form" autocomplete="off">
+    <input type="password" id="gate-input" placeholder="Mot de passe" autofocus>
+    <button type="submit">Entrer</button>
+    <p id="gate-error"></p>
+  </form>
+</div>
 <main>
   <header>
     <h1>Baracoudas</h1>
@@ -124,5 +177,44 @@
     <a href="https://github.com/Baracoudas">github.com/Baracoudas</a>
   </footer>
 </main>
+<script>
+(function () {
+  var HASH = "d90fa9334651aeaa6b6819f35799d00510b72e387e8d0be17e13509a440ee2a8";
+  var STORAGE_KEY = "site-unlocked";
+
+  function sha256(text) {
+    var data = new TextEncoder().encode(text);
+    return crypto.subtle.digest("SHA-256", data).then(function (buf) {
+      return Array.from(new Uint8Array(buf))
+        .map(function (b) { return b.toString(16).padStart(2, "0"); })
+        .join("");
+    });
+  }
+
+  function unlock() {
+    document.getElementById("gate").remove();
+    document.querySelector("main").style.display = "";
+  }
+
+  if (localStorage.getItem(STORAGE_KEY) === "1") {
+    unlock();
+    return;
+  }
+
+  document.getElementById("gate-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var input = document.getElementById("gate-input").value;
+    sha256(input).then(function (hash) {
+      if (hash === HASH) {
+        localStorage.setItem(STORAGE_KEY, "1");
+        unlock();
+      } else {
+        document.getElementById("gate-error").textContent = "Mot de passe incorrect.";
+        document.getElementById("gate-input").value = "";
+      }
+    });
+  });
+})();
+</script>
 </body>
 </html>
