@@ -1,116 +1,128 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-  <title>Birthday</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Titillium+Web&display=swap" rel="stylesheet">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-</head>
-<style type="text/css">
-	body{background-color: #000;}
-	div {color:#FFF; font-family: 'Titillium Web', sans-serif;font-size: 5vmin;font-weight: bolder;font-style: italic;font-stretch: extra-condensed; margin: 0 auto;text-align: center;}
-	#countdown {  font-weight: lighter }
-	img{margin:0 auto;text-align: center}
-
-	.bar{background-color: #036324;height:10px;}
-	.txt{margin:10px auto;}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Baracoudas</title>
+<meta name="description" content="Projets de Baracoudas">
+<style>
+  :root {
+    --bg: #0b0d12;
+    --surface: #14171f;
+    --border: #262b36;
+    --text: #e8eaef;
+    --text-dim: #9aa1b0;
+    --accent: #5b8cff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+  }
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 4.5rem 1.5rem 3rem;
+  }
+  header {
+    margin-bottom: 3rem;
+  }
+  h1 {
+    font-size: 2rem;
+    margin: 0 0 0.4rem;
+    letter-spacing: -0.02em;
+  }
+  header p {
+    color: var(--text-dim);
+    margin: 0;
+    font-size: 1.05rem;
+  }
+  h2 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    margin: 0 0 1rem;
+  }
+  .projects {
+    display: grid;
+    gap: 1rem;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem 1.4rem;
+  }
+  .card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .card-head h3 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  .badge {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    background: rgba(91, 140, 255, 0.15);
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .card p {
+    margin: 0.5rem 0 0;
+    color: var(--text-dim);
+    font-size: 0.95rem;
+  }
+  footer {
+    margin-top: 3.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 0.9rem;
+  }
+  footer a {
+    color: var(--text-dim);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  footer a:hover {
+    color: var(--text);
+  }
 </style>
+</head>
 <body>
-<div class="bar"></div>
-<section> 
-<div class="">
-	<img src="logo.png" style="width: 100%;height: auto;max-width: 1600px;padding: 10px 10%;display: block;">
-</div>
-<div id="countdown txt">
-    J-<span id="countdown_day" >--</span>&nbsp;&nbsp;
-    H-<span id="countdown_hour">--</span> &nbsp;&nbsp;
-    M-<span id="countdown_min" >--</span> &nbsp;&nbsp;
-    S-<span id="countdown_sec" >--</span> &nbsp;&nbsp;
-</div>
-</section>
-<div class="bar"></div>
-<section style="background-color: #fff">
+<main>
+  <header>
+    <h1>Baracoudas</h1>
+    <p>Projets en cours et à venir.</p>
+  </header>
 
-<div class="">
-	<img src="img1.png" style="width: 100%;height: auto;max-width: 2000px;padding: 0px 20px;display: block;">
-</div>
-<script type="text/javascript">
-	countdownManager = {
-    // Configuration
-    targetTime: new Date('2020-07-04 00:00:00'), // Date cible du compte à rebours (00:00:00)
-    displayElement: { // Elements HTML où sont affichés les informations
-        day:  null,
-        hour: null,
-        min:  null,
-        sec:  null
-    },
-     
-    // Initialisation du compte à rebours (à appeler 1 fois au chargement de la page)
-    init: function(){
-        // Récupération des références vers les éléments pour l'affichage
-        // La référence n'est récupérée qu'une seule fois à l'initialisation pour optimiser les performances
-        this.displayElement.day  = jQuery('#countdown_day');
-        this.displayElement.hour = jQuery('#countdown_hour');
-        this.displayElement.min  = jQuery('#countdown_min');
-        this.displayElement.sec  = jQuery('#countdown_sec');
-         
-        // Lancement du compte à rebours
-        this.tick(); // Premier tick tout de suite
-        window.setInterval("countdownManager.tick();", 1000); // Ticks suivant, répété toutes les secondes (1000 ms)
-    },
-     
-    // Met à jour le compte à rebours (tic d'horloge)
-    tick: function(){
-        // Instant présent
-        var timeNow  = new Date();
-         
-        // On s'assure que le temps restant ne soit jamais négatif (ce qui est le cas dans le futur de targetTime)
-        if( timeNow > this.targetTime ){
-            timeNow = this.targetTime;
-        }
-         
-        // Calcul du temps restant
-        var diff = this.dateDiff(timeNow, this.targetTime);
-         
-        this.displayElement.day.text(  diff.day  );
-        this.displayElement.hour.text( diff.hour );
-        this.displayElement.min.text(  diff.min  );
-        this.displayElement.sec.text(  diff.sec  );
-    },
-     
-    // Calcul la différence entre 2 dates, en jour/heure/minute/seconde
-    dateDiff: function(date1, date2){
-        var diff = {}                           // Initialisation du retour
-        var tmp = date2 - date1;
- 
-        tmp = Math.floor(tmp/1000);             // Nombre de secondes entre les 2 dates
-        diff.sec = tmp % 60;                    // Extraction du nombre de secondes
-        tmp = Math.floor((tmp-diff.sec)/60);    // Nombre de minutes (partie entière)
-        diff.min = tmp % 60;                    // Extraction du nombre de minutes
-        tmp = Math.floor((tmp-diff.min)/60);    // Nombre d'heures (entières)
-        diff.hour = tmp % 24;                   // Extraction du nombre d'heures
-        tmp = Math.floor((tmp-diff.hour)/24);   // Nombre de jours restants
-        diff.day = tmp;
- 
-        return diff;
-    }
-};
- 
-jQuery(function($){
-    // Lancement du compte à rebours au chargement de la page
-    countdownManager.init();
-});
+  <section>
+    <h2>Projets</h2>
+    <div class="projects">
+      <div class="card">
+        <div class="card-head">
+          <h3>Voyage</h3>
+          <span class="badge">En développement</span>
+        </div>
+        <p>Organisation de voyages en famille : planification d'étapes, activités et cartes, pilotée depuis Discord.</p>
+      </div>
+    </div>
+  </section>
 
-</script>
-</section>
-<div class="bar"></div>
-<section>
-	<div class="container txt">
-	YA B'SOIN D'EN DIRE PLUS ?
-	</div>
-</section>
+  <footer>
+    <a href="https://github.com/Baracoudas">github.com/Baracoudas</a>
+  </footer>
+</main>
 </body>
 </html>
